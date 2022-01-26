@@ -12,8 +12,10 @@ const loginUser = async (req, res) => {
 	try {
 		let user = await authServices.login(email, password);
 		let token = await authServices.createToken(user);
-
-		res.cookie(APP_COOKIE_NAME, token);
+		console.log(token);
+		res.cookie(APP_COOKIE_NAME, token, {
+			httpOnly: true,
+		});
 		res.redirect("/");
 	} catch (error) {
 		res.locals.error = error;

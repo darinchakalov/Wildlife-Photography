@@ -26,13 +26,16 @@
 				<ul class="menu">
 					<li><a href="/">Home</a></li>
 					<li><a href="/allPosts">All Posts</a></li>
-					<!-- Logged users -->
-					<li><a href="/create">Create Post</a></li>
-					<li><a href="/myPosts">Posts of {{email-of-user}}</a></li>
-					<li><a href="/logout">Logout</a></li>
-					<!-- Guest users -->
-					<li><a href="/register">Register</a></li>
-					<li><a href="/login">Login</a></li>
+					{{#if user}}
+						<!-- Logged users -->
+						<li><a href="/create">Create Post</a></li>
+						<li><a href="/myPosts">Posts of {{email-of-user}}</a></li>
+						<li><a href="/logout">Logout</a></li>
+					{{else}}
+						<!-- Guest users -->
+						<li><a href="/register">Register</a></li>
+						<li><a href="/login">Login</a></li>
+					{{/if}}
 				</ul>
 
 			</nav>

@@ -25,13 +25,7 @@ const createToken = function (user) {
 		username: user.username,
 		email: user.email,
 	};
-	jwt.sign(payload, SECRET, function (err, token) {
-		if (err) {
-			return err;
-		} else {
-			return token;
-		}
-	});
+	return jwt.sign(payload, SECRET);
 };
 
 const authServices = {
