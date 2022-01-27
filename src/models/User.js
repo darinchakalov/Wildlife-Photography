@@ -26,11 +26,12 @@ const userSchema = new mongoose.Schema({
 	],
 });
 
-userSchema.pre("save", function () {
+userSchema.pre("save", function (next) {
 	bcrypt
 		.hash(this.password, 10)
 		.then((hash) => {
-			return (this.password = hash);
+			this.password = hash;
+			next();
 		})
 		.catch((err) => {
 			throw new Error(err);

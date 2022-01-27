@@ -29,7 +29,7 @@
 					{{#if user}}
 						<!-- Logged users -->
 						<li><a href="/create">Create Post</a></li>
-						<li><a href="/myPosts">Posts of {{email-of-user}}</a></li>
+						<li><a href="/myPosts">Posts of {{user.email}}</a></li>
 						<li><a href="/logout">Logout</a></li>
 					{{else}}
 						<!-- Guest users -->

@@ -12,7 +12,6 @@ const loginUser = async (req, res) => {
 	try {
 		let user = await authServices.login(email, password);
 		let token = await authServices.createToken(user);
-		console.log(token);
 		res.cookie(APP_COOKIE_NAME, token, {
 			httpOnly: true,
 		});
@@ -39,7 +38,9 @@ const registerUser = async (req, res) => {
 		let user = await authServices.login(email, password);
 		let token = await authServices.createToken(user);
 
-		res.cookie(APP_COOKIE_NAME, token);
+		res.cookie(APP_COOKIE_NAME, token, {
+			httpOnly: true,
+		});
 		res.redirect("/");
 	} catch (error) {
 		res.locals.error = error;
@@ -47,9 +48,15 @@ const registerUser = async (req, res) => {
 	}
 };
 
+const logoutUser = (req, res) => {
+	res.clearCookie(APP_COOKIE_NAME);
+	res.redirect("/");
+};
+
 router.get("/login", renderLoginPage);
 router.get("/register", renderRegisterPage);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.get("/logout", logoutUser);
 
 module.exports = router;

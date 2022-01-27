@@ -9,8 +9,8 @@ const register = function (firstName, lastName, email, password) {
 
 const login = async function (email, password) {
 	try {
-		let user = await User.find({ email: email });
-		let isPassCorrect = await User.confirmPass(password);
+		let user = await User.findOne({ email: email });
+		let isPassCorrect = await user.confirmPass(password);
 		if (isPassCorrect) {
 			return user;
 		}
