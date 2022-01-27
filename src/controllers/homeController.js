@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const renderHomePage = (req, res) => {
+const renderHomePage = async (req, res) => {
 	res.render("home");
 };
 

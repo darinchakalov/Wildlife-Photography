@@ -17,7 +17,18 @@ const createPost = async (req, res) => {
 	}
 };
 
+const renderAllPostsPage = async (req, res) => {
+	try {
+		let posts = await postServices.getAll();
+		res.render("all-posts", { posts });
+	} catch (error) {
+		res.locals.error = error.message;
+		res.render("all-posts");
+	}
+};
+
 router.get("/create", renderCreatePage);
 router.post("/create", createPost);
+router.get("/allPosts", renderAllPostsPage);
 
 module.exports = router;
