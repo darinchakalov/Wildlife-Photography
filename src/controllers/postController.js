@@ -34,7 +34,14 @@ const renderDetailsPage = async (req, res) => {
 		let user = await authServices.getUser(res.user.id);
 		currentPost.owner = user.fullName;
 		let isOwner = currentPost.author == user._id;
-		res.render("details", { ...currentPost, isOwner });
+
+		let isVoted = currentPost.votes.some((v) => v._id == res.user?.id);
+
+		let allUsers = await authServices.getAll();
+		let votedUsers = allUsers.filter((user) => currentPost.votes.some((x) => x.equals(user._id)));
+		let voters = votedUsers.map((x) => x.email).join(", ");
+		console.log(voters);
+		res.render("details", { title: "Details", ...currentPost, isOwner, isVoted, voters });
 	} catch (error) {
 		res.locals.error = error.message;
 		res.render("details");
@@ -60,6 +67,16 @@ const postDownvote = async (req, res) => {
 		res.render("details");
 	}
 };
+
+function getVoters(arrayOfIds) {
+	let voters = [];
+	arrayOfIds.forEach((voter) => {
+		authServices.getUser(voter).then((user) => {
+			voters.push(user.email);
+		});
+	});
+	return voters;
+}
 
 router.get("/create", renderCreatePage);
 router.post("/create", createPost);

@@ -32,11 +32,16 @@ const getUser = function (id) {
 	return User.findOne({ _id: id });
 };
 
+const getAll = function (id) {
+	return User.find();
+};
+
 const authServices = {
 	register,
 	login,
 	createToken,
 	getUser,
+	getAll,
 };
 
 module.exports = authServices;
