@@ -8,9 +8,14 @@ const getAll = function () {
 	return Post.find().lean();
 };
 
+const getOne = function (id) {
+	return Post.findOne({ _id: id }).lean();
+};
+
 const postServices = {
 	create,
 	getAll,
+	getOne,
 };
 
 module.exports = postServices;

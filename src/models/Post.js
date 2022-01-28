@@ -29,10 +29,10 @@ const postSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	votes: {
+	votes: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
-	},
+	}],
 	rating: {
 		type: Number,
 		default: 0,
