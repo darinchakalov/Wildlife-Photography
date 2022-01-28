@@ -43,15 +43,29 @@ const renderDetailsPage = async (req, res) => {
 
 const postUpvote = async (req, res) => {
 	try {
-		
+		await postServices.upvote(req.params.id, res.user.id);
+		res.redirect(`/details/${req.params.id}`);
 	} catch (error) {
-		
+		res.locals.error = error.message;
+		res.render("details");
 	}
-}
+};
+
+const postDownvote = async (req, res) => {
+	try {
+		await postServices.downvote(req.params.id, res.user.id);
+		res.redirect(`/details/${req.params.id}`);
+	} catch (error) {
+		res.locals.error = error.message;
+		res.render("details");
+	}
+};
 
 router.get("/create", renderCreatePage);
 router.post("/create", createPost);
 router.get("/allPosts", renderAllPostsPage);
 router.get("/details/:id", renderDetailsPage);
+router.get("/upvote/:id", postUpvote);
+router.get("/downvote/:id", postDownvote);
 
 module.exports = router;
