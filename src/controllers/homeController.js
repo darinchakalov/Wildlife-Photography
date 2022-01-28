@@ -6,4 +6,5 @@ const renderHomePage = async (req, res) => {
 
 router.get("/", renderHomePage);
 
+
 module.exports = router;
