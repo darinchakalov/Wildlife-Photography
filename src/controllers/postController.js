@@ -31,9 +31,10 @@ const renderAllPostsPage = async (req, res) => {
 const renderDetailsPage = async (req, res) => {
 	try {
 		let currentPost = await postServices.getOne(req.params.id);
-		let user = await authServices.getUser(res.user.id);
-		currentPost.owner = user.fullName;
-		let isOwner = currentPost.author == user._id;
+		let user = await authServices.getUser(currentPost.author);
+		console.log(user);
+		currentPost.owner = user?.fullName;
+		let isOwner = currentPost.author == user?._id;
 
 		let isVoted = currentPost.votes.some((v) => v._id == res.user?.id);
 
@@ -68,15 +69,15 @@ const postDownvote = async (req, res) => {
 	}
 };
 
-function getVoters(arrayOfIds) {
-	let voters = [];
-	arrayOfIds.forEach((voter) => {
-		authServices.getUser(voter).then((user) => {
-			voters.push(user.email);
-		});
-	});
-	return voters;
-}
+const deletePost = async (req, res) => {
+	try {
+		await postServices.del(req.params.id);
+		res.redirect("/allPosts");
+	} catch (error) {
+		res.locals.error = error.message;
+		res.render("details");
+	}
+};
 
 router.get("/create", renderCreatePage);
 router.post("/create", createPost);
@@ -84,5 +85,6 @@ router.get("/allPosts", renderAllPostsPage);
 router.get("/details/:id", renderDetailsPage);
 router.get("/upvote/:id", postUpvote);
 router.get("/downvote/:id", postDownvote);
+router.get("/delete/:id", deletePost);
 
 module.exports = router;

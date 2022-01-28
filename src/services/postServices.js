@@ -34,12 +34,17 @@ const upvote = async function (postId, userId) {
 	}
 };
 
+const del = function (postId) {
+	return Post.findByIdAndDelete(postId);
+};
+
 const postServices = {
 	create,
 	getAll,
 	getOne,
 	upvote,
 	downvote,
+	del,
 };
 
 module.exports = postServices;
