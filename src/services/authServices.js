@@ -36,12 +36,17 @@ const getAll = function (id) {
 	return User.find();
 };
 
+const exist = function (email) {
+	return User.exists({ email: email });
+};
+
 const authServices = {
 	register,
 	login,
 	createToken,
 	getUser,
 	getAll,
+	exist,
 };
 
 module.exports = authServices;

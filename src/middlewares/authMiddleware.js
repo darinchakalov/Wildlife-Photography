@@ -30,7 +30,7 @@ exports.isUser = (req, res, next) => {
 
 exports.isGuest = (req, res, next) => {
 	if (!res.user) {
-		res.redirect("/404");
+		res.redirect("/login");
 	} else {
 		next();
 	}

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const authServices = require("../services/authServices.js");
 const { isUser, isGuest } = require("../middlewares/authMiddleware.js");
+const validator = require("validator");
 
 const { APP_COOKIE_NAME } = require("../config/constants.js");
 
@@ -18,7 +19,7 @@ const loginUser = async (req, res) => {
 		});
 		res.redirect("/");
 	} catch (error) {
-		res.locals.error = error;
+		res.locals.error = error.message;
 		res.render("login");
 	}
 };
@@ -33,6 +34,14 @@ const registerUser = async (req, res) => {
 		res.locals.error = "Passwords don't match";
 		return res.render("register");
 	}
+	if (!validator.isEmail(email)) {
+		res.locals.error = "Please use a valid email addres";
+		return res.render("register");
+	}
+	if (await authServices.exist(email)) {
+		res.locals.error = "Username already exists";
+		return res.render("register");
+	}
 	try {
 		await authServices.register(firstName, lastName, email, password);
 
@@ -44,7 +53,7 @@ const registerUser = async (req, res) => {
 		});
 		res.redirect("/");
 	} catch (error) {
-		res.locals.error = error;
+		res.locals.error = error.message;
 		res.render("register");
 	}
 };
