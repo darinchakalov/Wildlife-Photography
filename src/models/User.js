@@ -38,6 +38,10 @@ userSchema.pre("save", function (next) {
 		});
 });
 
+userSchema.virtual("fullName").get(function () {
+	return `${this.firstName} ${this.lastName}`;
+});
+
 userSchema.method("confirmPass", function (password) {
 	return bcrypt.compare(password, this.password);
 });

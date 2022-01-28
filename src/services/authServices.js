@@ -28,10 +28,15 @@ const createToken = function (user) {
 	return jwt.sign(payload, SECRET);
 };
 
+const getUser = function (id) {
+	return User.findOne({ _id: id });
+};
+
 const authServices = {
 	register,
 	login,
 	createToken,
+	getUser,
 };
 
 module.exports = authServices;
