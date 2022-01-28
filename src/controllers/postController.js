@@ -79,6 +79,28 @@ const deletePost = async (req, res) => {
 	}
 };
 
+const renderEditPage = async (req, res) => {
+	try {
+		let post = await postServices.getOne(req.params.id);
+		res.render("edit", post);
+	} catch (error) {
+		res.locals.error = error.message;
+		res.render("edit");
+	}
+};
+
+const editPost = async (req, res) => {
+	const { title, keyword, location, date, imageUrl, description } = req.body;
+	try {
+		const post = { title, keyword, location, date, imageUrl, description };
+		await postServices.edit(req.params.id, post);
+		res.redirect(`/details/${req.params.id}`);
+	} catch (error) {
+		res.locals.error = error.message;
+		res.render("details");
+	}
+};
+
 router.get("/create", renderCreatePage);
 router.post("/create", createPost);
 router.get("/allPosts", renderAllPostsPage);
@@ -86,5 +108,7 @@ router.get("/details/:id", renderDetailsPage);
 router.get("/upvote/:id", postUpvote);
 router.get("/downvote/:id", postDownvote);
 router.get("/delete/:id", deletePost);
+router.get("/edit/:id", renderEditPage);
+router.post("/edit/:id", editPost);
 
 module.exports = router;

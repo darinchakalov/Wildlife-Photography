@@ -38,6 +38,10 @@ const del = function (postId) {
 	return Post.findByIdAndDelete(postId);
 };
 
+const edit = function (postId, post) {
+	return Post.findByIdAndUpdate(postId, post);
+};
+
 const postServices = {
 	create,
 	getAll,
@@ -45,6 +49,7 @@ const postServices = {
 	upvote,
 	downvote,
 	del,
+	edit,
 };
 
 module.exports = postServices;
