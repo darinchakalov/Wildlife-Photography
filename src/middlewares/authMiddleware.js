@@ -19,3 +19,19 @@ exports.auth = (req, res, next) => {
 		}
 	});
 };
+
+exports.isUser = (req, res, next) => {
+	if (res.user) {
+		res.redirect("/");
+	} else {
+		next();
+	}
+};
+
+exports.isGuest = (req, res, next) => {
+	if (!res.user) {
+		res.redirect("/404");
+	} else {
+		next();
+	}
+};

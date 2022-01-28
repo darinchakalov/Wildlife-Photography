@@ -1,5 +1,6 @@
 const postServices = require("../services/postServices.js");
 const authServices = require("../services/authServices.js");
+const { isUser, isGuest } = require("../middlewares/authMiddleware.js");
 
 const router = require("express").Router();
 
@@ -101,14 +102,14 @@ const editPost = async (req, res) => {
 	}
 };
 
-router.get("/create", renderCreatePage);
-router.post("/create", createPost);
+router.get("/create", isGuest, renderCreatePage);
+router.post("/create", isGuest, createPost);
 router.get("/allPosts", renderAllPostsPage);
 router.get("/details/:id", renderDetailsPage);
-router.get("/upvote/:id", postUpvote);
-router.get("/downvote/:id", postDownvote);
-router.get("/delete/:id", deletePost);
-router.get("/edit/:id", renderEditPage);
-router.post("/edit/:id", editPost);
+router.get("/upvote/:id", isGuest, postUpvote);
+router.get("/downvote/:id", isGuest, postDownvote);
+router.get("/delete/:id", isGuest, deletePost);
+router.get("/edit/:id", isGuest, renderEditPage);
+router.post("/edit/:id", isGuest, editPost);
 
 module.exports = router;

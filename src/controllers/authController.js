@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const authServices = require("../services/authServices.js");
+const { isUser, isGuest } = require("../middlewares/authMiddleware.js");
 
 const { APP_COOKIE_NAME } = require("../config/constants.js");
 
@@ -53,10 +54,10 @@ const logoutUser = (req, res) => {
 	res.redirect("/");
 };
 
-router.get("/login", renderLoginPage);
-router.get("/register", renderRegisterPage);
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.get("/logout", logoutUser);
+router.get("/login", isUser, renderLoginPage);
+router.get("/register", isUser, renderRegisterPage);
+router.post("/register", isUser, registerUser);
+router.post("/login", isUser, loginUser);
+router.get("/logout", isGuest, logoutUser);
 
 module.exports = router;
